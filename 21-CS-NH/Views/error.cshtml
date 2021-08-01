@@ -1,0 +1,12 @@
+﻿@inherits Umbraco.Web.Mvc.UmbracoViewPage<Error>
+@using _21_CS_NH.ViewModel;
+@{
+    Layout = "Master.cshtml";
+}
+
+@Html.Partial("~/Views/Partials/pageHeader.cshtml", new PageHeaderViewModel(Model.Name, Model.Title, Model.MainImage))
+<article>
+    <div class="container">
+        @Html.Raw(Model.MainContent)
+    </div>
+</article>

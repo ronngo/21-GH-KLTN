@@ -1,0 +1,64 @@
+﻿@inherits UmbracoViewPage
+@{ 
+    var homePage = Model.AncestorOrSelf<Home>();
+    var settings = (Settings)Umbraco.ContentAtRoot().FirstOrDefault(x => x.ContentType.Alias == "settings");
+    var newsList = UmbracoContext.Content.GetAtRoot().DescendantsOrSelf<NewsList>().FirstOrDefault(); 
+}
+<header class="header">
+    <div class="container">
+        <div class="row">
+            <div class="col-lg-2">
+                <div class="header__logo">
+                    @if (settings?.Logo != null)
+                    {
+                        <a href="@homePage.Url()"><img data-loading="lazy" src="~/Media/blank.png?format=webp&width=134" data-src="@settings.Logo.LocalCrops.Src?format=webp&width=134" alt="@settings.SiteName" /></a> }
+                    else
+                    {
+                        <a href="@homePage.Url()">@(settings?.SiteName)</a>}
+                </div>
+            </div>
+            <div class="col-lg-10">
+                <div class="header__nav__option">
+                    <nav class="header__nav__menu mobile-menu">
+                        <ul>
+                            <li class="active">
+                                <a href="@homePage.Url()">@Umbraco.GetDictionaryValue("Home").ToFirstUpper()</a>
+                            </li>
+                            <li>
+                                <a href="@homePage.Url()#story">@Umbraco.GetDictionaryValue("Story").ToFirstUpper()</a>
+                            </li>
+                            <li>
+                                <a class="nav-link" href="@homePage.Url()#album">@Umbraco.GetDictionaryValue("Album").ToFirstUpper()</a>
+                            </li>
+                            <li>
+                                @if (newsList != null)
+                                {
+                                    if (Model.Id == newsList.Id)
+                                    {
+                                        <a href="@Model.Url()">@Umbraco.GetDictionaryValue("News").ToFirstUpper()</a> }
+                                    else if (Model.Parent?.Id == newsList.Id)
+                                    {
+                                        <a href="@Model.Parent.Url()">@Umbraco.GetDictionaryValue("News").ToFirstUpper()</a> }
+                                    else
+                                    {
+                                        <a href="@homePage.Url()#latest-news">@Umbraco.GetDictionaryValue("News").ToFirstUpper()</a>}
+                                }
+                            </li>
+                            <li>
+                                <a href="@Request.RawUrl#contact">@Umbraco.GetDictionaryValue("Contact").ToFirstUpper()</a>
+                            </li>
+                        </ul>
+                    </nav>
+                    <div class="header__nav__social">
+                        <a href="#"><i class="fa fa-facebook"></i></a>
+                        <a href="#"><i class="fa fa-twitter"></i></a>
+                        <a href="#"><i class="fa fa-dribbble"></i></a>
+                        <a href="#"><i class="fa fa-instagram"></i></a>
+                        <a href="#"><i class="fa fa-youtube-play"></i></a>
+                    </div>
+                </div>
+            </div>
+        </div>
+        <div id="mobile-menu-wrap"></div>
+    </div>
+</header>

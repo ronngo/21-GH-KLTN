@@ -1,0 +1,53 @@
+﻿@inherits UmbracoViewPage<_21_CS_NH.ViewModel.PageHeaderViewModel>
+@{ 
+    string mainImageUrl = Model.HasBackgroundImage ? Model.BackgroundImage.LocalCrops.Src : "/media/default.png";
+
+}
+
+<section class="hero">
+    <div class="hero__slider owl-carousel">
+        @if (Model.IsNews)
+        {
+            <div class="breadcrumb-option spad set-bg header__background">
+                <div class="container">
+                    <div class="row">
+                        <div class="col-lg-12 text-center">
+                            <div class="breadcrumb__text">
+                                <h2>@Umbraco.GetDictionaryValue("News")</h2>
+                                <div class="breadcrumb__links">
+                                    <a href="">@(!string.IsNullOrWhiteSpace(Model.Title) ? Model.Title : Model.Name)</a>
+                                    <span>
+                                        @Umbraco.GetDictionaryValue("Article.Posted")
+                                        @if (Model.HasAuthor)
+                                        {
+                                            @Umbraco.GetDictionaryValue("Article.By")@:&nbsp;@Model.AuthorName
+                                        }
+                                        @Umbraco.GetDictionaryValue("Article.On")@Html.Raw("&nbsp;")@Model.CreateDate.Value.ToString("MMMM dd, yyyy")
+                                    </span>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div> 
+          }
+
+        else
+        {
+            <div class="hero__item set-bg" style="background-image: url('@mainImageUrl?format=webp&width=1920');">
+                <div class="container">
+                    <div class="row">
+                        <div class="col-lg-6">
+                            <div class="hero__text">
+                                <span>For website and video editing</span>
+                                <h2></h2>
+                                <a href="#" class="primary-btn">See more about us</a>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        }
+
+    </div>
+</section>
